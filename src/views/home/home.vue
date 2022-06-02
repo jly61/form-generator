@@ -75,6 +75,12 @@ const formItems = [
     type: 'input',
     field: 'name',
     required: true,
+    events: {
+      blur: function (e) {
+        console.log('event', e)
+        console.log('this', this.options)
+      }
+    },
     props: { maxLength: 100, clearable: true }
   },
   {
@@ -149,8 +155,6 @@ const formItems = [
     field: 'priceArea',
     props: {
       range: true,
-      // showStops: true,
-      // max: 10
       step: 10,
       showStops: true
     }
@@ -196,9 +200,6 @@ export default {
               { validator: checkAge, trigger: 'blur' }
             ]
           }
-        },
-        colOptions: { // el-col配置项
-          span: 6
         },
         formData: { // 表单数据
           sex: '',

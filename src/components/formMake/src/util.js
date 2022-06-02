@@ -14,7 +14,15 @@ const compObj = {
 
 }
 
-function makeInput (h, formData, obj) {
+/**
+ * 生成 el-input
+ * @param {function} h: vue 渲染函数
+ * @param {object} formData: 表单数据
+ * @param {object} obj: 表单项配置
+ * @param {object} vm: 组件实例
+ * @returns {VNode}
+ */
+function makeInput (h, formData, obj, vm) {
   const key = obj.field
   return h('el-input', {
     props: {
@@ -26,12 +34,13 @@ function makeInput (h, formData, obj) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
   }, [])
 }
 
-function makeInputNumber (h, formData, obj) {
+function makeInputNumber (h, formData, obj, vm) {
   const key = obj.field
   return h('el-input-number', {
     props: {
@@ -52,7 +61,7 @@ function makeInputNumber (h, formData, obj) {
   }, [])
 }
 
-function makeSelect (h, formData, obj) {
+function makeSelect (h, formData, obj, vm) {
   const key = obj.field
   let components = []
   if (obj.options) {
@@ -80,7 +89,7 @@ function makeSelect (h, formData, obj) {
   }, components)
 }
 
-function makeDatePicker (h, formData, obj) {
+function makeDatePicker (h, formData, obj, vm) {
   const key = obj.field
   return h('el-date-picker', {
     props: {
@@ -100,7 +109,7 @@ function makeDatePicker (h, formData, obj) {
   }, [])
 }
 
-function makeRadioGroup (h, formData, obj) {
+function makeRadioGroup (h, formData, obj, vm) {
   const key = obj.field
 
   let components = []
@@ -127,7 +136,7 @@ function makeRadioGroup (h, formData, obj) {
   }, components)
 }
 
-function makeCheckbox (h, formData, obj) {
+function makeCheckbox (h, formData, obj, vm) {
   const key = obj.field
 
   return h('el-checkbox', {
@@ -145,7 +154,7 @@ function makeCheckbox (h, formData, obj) {
   }, [obj.text])
 }
 
-function makeCheckboxGroup (h, formData, obj) {
+function makeCheckboxGroup (h, formData, obj, vm) {
   const key = obj.field
 
   let components = []
@@ -172,7 +181,7 @@ function makeCheckboxGroup (h, formData, obj) {
   }, components)
 }
 
-function makeCascader (h, formData, obj) {
+function makeCascader (h, formData, obj, vm) {
   const key = obj.field
 
   return h('el-cascader', {
@@ -194,7 +203,7 @@ function makeCascader (h, formData, obj) {
   }, [])
 }
 
-function makeSwitch (h, formData, obj) {
+function makeSwitch (h, formData, obj, vm) {
   const key = obj.field
 
   return h('el-switch', {
@@ -212,7 +221,7 @@ function makeSwitch (h, formData, obj) {
   }, [])
 }
 
-function makeSlider (h, formData, obj) {
+function makeSlider (h, formData, obj, vm) {
   const key = obj.field
 
   return h('el-slider', {
@@ -232,7 +241,9 @@ function makeSlider (h, formData, obj) {
 
 function makeCol (h, obj, component) {
   return h('el-col', {
-    props: obj
+    props: {
+      span: obj.span || 6
+    }
   }, [component])
 }
 
@@ -243,6 +254,24 @@ function makeFormItem (h, obj, component) {
       prop: obj.field
     }
   }, [component])
+}
+
+/**
+ * 将表单项事件绑定到 vm
+ * @param events: 表单事件列表
+ * @param vm: 组件实例
+ * @returns {{}}
+ */
+function bindVm (events = {}, vm) {
+  const result = {}
+
+  for (const key in events) {
+    if (Object.prototype.hasOwnProperty.call(events, key)) {
+      result[key] = events[key].bind(vm)
+    }
+  }
+
+  return result
 }
 
 export default compObj
