@@ -6,8 +6,11 @@ const compObj = {
   radioGroup: makeRadioGroup,
   checkbox: makeCheckbox,
   checkboxGroup: makeCheckboxGroup,
+  cascader: makeCascader,
   col: makeCol,
-  formItem: makeFormItem
+  formItem: makeFormItem,
+  switch: makeSwitch,
+  slider: makeSlider
 
 }
 
@@ -167,6 +170,64 @@ function makeCheckboxGroup (h, formData, obj) {
       }
     }
   }, components)
+}
+
+function makeCascader (h, formData, obj) {
+  const key = obj.field
+
+  return h('el-cascader', {
+    props: {
+      value: formData[key],
+      ...obj.props,
+      options: obj.options
+    },
+    on: {
+      input (val) {
+        if (key) {
+          formData[key] = val
+        }
+      }
+    },
+    style: {
+      width: '100%'
+    }
+  }, [])
+}
+
+function makeSwitch (h, formData, obj) {
+  const key = obj.field
+
+  return h('el-switch', {
+    props: {
+      value: formData[key],
+      ...obj.props
+    },
+    on: {
+      input (val) {
+        if (key) {
+          formData[key] = val
+        }
+      }
+    }
+  }, [])
+}
+
+function makeSlider (h, formData, obj) {
+  const key = obj.field
+
+  return h('el-slider', {
+    props: {
+      value: formData[key],
+      ...obj.props
+    },
+    on: {
+      input (val) {
+        if (key) {
+          formData[key] = val
+        }
+      }
+    }
+  }, [])
 }
 
 function makeCol (h, obj, component) {

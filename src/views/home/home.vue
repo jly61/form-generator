@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <form-make ref="lyForm" :options="options" />
-    <div>
+    <el-col :span="6" style="text-align: center">
       <el-button @click="validateForm">校验表单</el-button>
       <el-button @click="setForm">修改表单值</el-button>
-    </div>
+    </el-col>
   </div>
 </template>
 
@@ -27,6 +27,46 @@ const fruits = [
   { label: '橘' },
   { label: '苹果' },
   { label: '梨', disabled: true }
+]
+
+const cascaderData = [
+  {
+    value: 'fe',
+    label: '前端',
+    children: [
+      {
+        value: 'vue',
+        label: 'Vue'
+      },
+      {
+        value: 'react',
+        label: 'React'
+      },
+      {
+        value: 'jquery',
+        label: 'Jquery',
+        disabled: true
+      }
+    ]
+  },
+  {
+    value: 'ee',
+    label: '后端',
+    children: [
+      {
+        value: 'go',
+        label: 'Go'
+      },
+      {
+        value: 'php',
+        label: 'PHP'
+      },
+      {
+        value: 'java',
+        label: 'Java'
+      }
+    ]
+  }
 ]
 
 const formItems = [
@@ -83,6 +123,37 @@ const formItems = [
     field: 'fruit',
     options: fruits,
     props: {}
+  },
+  {
+    label: '技术',
+    type: 'cascader',
+    field: 'tech',
+    required: true,
+    options: cascaderData,
+    props: {}
+  },
+  {
+    label: '付费方式',
+    type: 'switch',
+    field: 'pay',
+    props: {
+      activeColor: '#13ce66',
+      inactiveColor: '#ff4949',
+      activeText: '按月付费',
+      inactiveText: '按年付费'
+    }
+  },
+  {
+    label: '价格区间',
+    type: 'slider',
+    field: 'priceArea',
+    props: {
+      range: true,
+      // showStops: true,
+      // max: 10
+      step: 10,
+      showStops: true
+    }
   }
 ]
 
@@ -119,7 +190,7 @@ export default {
               { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
             ],
             birth: [
-              { type: 'date', required: true, message: '请选择出生日期', trigger: 'change' }
+              { type: 'date', required: true, message: '请选择出生日期', trigger: 'blur' }
             ],
             age: [
               { validator: checkAge, trigger: 'blur' }
@@ -137,7 +208,10 @@ export default {
           birth: '',
           city: '',
           receive: '',
-          fruit: []
+          fruit: [],
+          tech: '',
+          pay: '',
+          priceArea: [20, 60]
         },
         formItems // 表单项配置
       }
