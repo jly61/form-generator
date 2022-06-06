@@ -1,4 +1,6 @@
 const compObj = {
+  col: makeCol,
+  formItem: makeFormItem,
   input: makeInput,
   inputNumber: makeInputNumber,
   select: makeSelect,
@@ -7,11 +9,9 @@ const compObj = {
   checkbox: makeCheckbox,
   checkboxGroup: makeCheckboxGroup,
   cascader: makeCascader,
-  col: makeCol,
-  formItem: makeFormItem,
   switch: makeSwitch,
-  slider: makeSlider
-
+  slider: makeSlider,
+  icon: makeIcon
 }
 
 /**
@@ -24,6 +24,23 @@ const compObj = {
  */
 function makeInput (h, formData, obj, vm) {
   const key = obj.field
+
+  let components = []
+  if (obj.options) {
+    components = obj.options.map(item => {
+      let comp
+      if (item.type === 'icon') {
+        comp = makeIcon(h, item)
+        console.log('comp', comp)
+      } else if (item.type === 'text') {
+        comp = h('span', {
+          slot: item.slot
+        }, [item.text])
+      }
+      return comp
+    })
+  }
+
   return h('el-input', {
     props: {
       value: formData[key],
@@ -37,7 +54,7 @@ function makeInput (h, formData, obj, vm) {
       },
       ...bindVm(obj.events, vm)
     }
-  }, [])
+  }, components)
 }
 
 function makeInputNumber (h, formData, obj, vm) {
@@ -53,7 +70,8 @@ function makeInputNumber (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     },
     style: {
       width: '100%'
@@ -81,7 +99,8 @@ function makeSelect (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     },
     style: {
       width: '100%'
@@ -101,7 +120,8 @@ function makeDatePicker (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     },
     style: {
       width: '100%'
@@ -131,7 +151,8 @@ function makeRadioGroup (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
   }, components)
 }
@@ -149,7 +170,8 @@ function makeCheckbox (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
   }, [obj.text])
 }
@@ -176,7 +198,8 @@ function makeCheckboxGroup (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
   }, components)
 }
@@ -195,7 +218,8 @@ function makeCascader (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     },
     style: {
       width: '100%'
@@ -216,7 +240,8 @@ function makeSwitch (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
   }, [])
 }
@@ -234,8 +259,20 @@ function makeSlider (h, formData, obj, vm) {
         if (key) {
           formData[key] = val
         }
-      }
+      },
+      ...bindVm(obj.events, vm)
     }
+  }, [])
+}
+
+function makeIcon (h, obj) {
+  console.log('makeicon', obj)
+  return h('i', {
+    props: {
+      slot: obj.slot,
+      class: obj.icon
+    },
+    class: obj.icon
   }, [])
 }
 

@@ -5,6 +5,11 @@
       <el-button @click="validateForm">校验表单</el-button>
       <el-button @click="setForm">修改表单值</el-button>
     </el-col>
+    <el-input type="text">
+      <template v-slot:prefix>
+        <i class="el-icon-edit"></i>
+      </template>
+    </el-input>
   </div>
 </template>
 
@@ -158,6 +163,32 @@ const formItems = [
       step: 10,
       showStops: true
     }
+  },
+  {
+    label: '搜索',
+    type: 'input',
+    field: 'search',
+    options: [
+      {
+        type: 'icon',
+        slot: 'prefix',
+        icon: 'el-icon-edit'
+      }
+    ],
+    props: {}
+  },
+  {
+    label: '网址',
+    type: 'input',
+    field: 'url',
+    options: [
+      {
+        type: 'text',
+        slot: 'prepend',
+        text: 'https://'
+      }
+    ],
+    props: {}
   }
 ]
 
@@ -212,7 +243,9 @@ export default {
           fruit: [],
           tech: '',
           pay: '',
-          priceArea: [20, 60]
+          priceArea: [20, 60],
+          search: '',
+          url: ''
         },
         formItems // 表单项配置
       }
