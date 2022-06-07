@@ -31,7 +31,6 @@ function makeInput (h, formData, obj, vm) {
       let comp
       if (item.type === 'icon') {
         comp = makeIcon(h, item)
-        console.log('comp', comp)
       } else if (item.type === 'text') {
         comp = h('span', {
           slot: item.slot
@@ -40,7 +39,6 @@ function makeInput (h, formData, obj, vm) {
       return comp
     })
   }
-
   return h('el-input', {
     props: {
       value: formData[key],
@@ -268,11 +266,11 @@ function makeSlider (h, formData, obj, vm) {
 function makeIcon (h, obj) {
   console.log('makeicon', obj)
   return h('i', {
-    props: {
+    // props: {
       slot: obj.slot,
       class: obj.icon
-    },
-    class: obj.icon
+    // },
+    // class: obj.icon
   }, [])
 }
 
