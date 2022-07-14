@@ -266,11 +266,8 @@ function makeSlider (h, formData, obj, vm) {
 function makeIcon (h, obj) {
   console.log('makeicon', obj)
   return h('i', {
-    // props: {
-      slot: obj.slot,
-      class: obj.icon
-    // },
-    // class: obj.icon
+    slot: obj.slot,
+    class: obj.icon
   }, [])
 }
 

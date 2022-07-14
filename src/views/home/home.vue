@@ -200,16 +200,20 @@ export default {
   data () {
     // 自定义校验年龄
     const checkAge = (rule, value, callback) => {
+      let msg = ''
       if (!value) {
-        callback('年龄不能为空')
+        msg = '年龄不能为空'
+        callback(msg)
       }
 
       if (!Number.isInteger(value)) {
-        callback('年龄必须为整数值')
+        msg = '年龄必须为整数值'
+        callback(msg)
       }
 
       if (value < 18) {
-        callback('年龄必须满18岁')
+        msg = '年龄必须满18岁'
+        callback(msg)
       } else {
         callback()
       }
